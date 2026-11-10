@@ -2,11 +2,12 @@
 
 > Fichier généré par `tools/gen_sprite_doc.py` à partir de `tools/sprite_manifest.py`.
 
-Le jeu tourne déjà avec des **sprites provisoires** (`assets/placeholders/`, aperçu ci-dessous).
-Chaque PNG que tu déposes dans `assets/sprites/` (même nom, même dossier) **remplace** le provisoire
-à la compilation suivante. Tu peux livrer petit à petit.
+Les sprites du **dragon** (`assets/sprites/`, aperçu ci-dessous) ont été générés avec Fal par
+`tools/fal_dragons.py`. Tout le reste utilise les **sprites provisoires** de `assets/placeholders/`.
+Chaque PNG déposé dans `assets/sprites/` (même nom, même dossier) **remplace** le provisoire ou le
+dragon à la compilation suivante. Tu peux retoucher ou livrer petit à petit.
 
-![Aperçu des provisoires](sprites_preview.png)
+![Aperçu des sprites du dragon](sprites_preview.png)
 
 ## Règles de dessin
 

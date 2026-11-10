@@ -3,3 +3,4 @@
 src/generated/
 __pycache__/
 *.pyc
+assets/fal_raw/

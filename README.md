@@ -56,12 +56,28 @@ L'écran s'éteint après 30 s ; un appui le rallume. Il se rallume tout seul qu
 
 ## Sprites
 
-Le jeu utilise des **sprites provisoires** générés par `tools/make_placeholders.py`.
+La créature est un **dragon** : ses sprites (`assets/sprites/`) ont été générés avec l'API
+[Fal](https://fal.ai) par `tools/fal_dragons.py`. Les bulles, objets, icônes et éléments d'interface
+sont des **sprites provisoires** dessinés par `tools/make_placeholders.py`.
 La **liste exhaustive** des sprites à dessiner, avec tailles, nombre d'images, priorités et
 conventions de nommage, est dans **[docs/SPRITES.md](docs/SPRITES.md)**.
 
 Pour remplacer un provisoire, dépose ton PNG dans `assets/sprites/` avec le même chemin,
 par exemple `assets/sprites/baby/idle_01.png`, puis recompile.
+
+### Régénérer les dragons avec Fal
+
+```bash
+export FAL_KEY=ta_cle_fal
+python3 tools/fal_dragons.py --refs-only     # 1 référence par stade + planche assets/fal_raw/refs_sheet.png
+python3 tools/fal_dragons.py                 # toutes les poses (~230 éditions + détourages, ~10 $)
+python3 tools/fal_dragons.py --stage baby --pose eat --force   # refaire une pose ratée
+```
+
+Méthode : le bébé est généré par texte (FLUX dev), chaque stade suivant est obtenu en éditant le
+précédent (FLUX Kontext), puis chaque pose en éditant la référence du stade : c'est toujours le
+même dragon. Le fond est détouré par BiRefNet, puis l'image est réduite en 32x32 et 16 couleurs.
+Les images brutes sont en cache dans `assets/fal_raw/` (non versionné) : relancer ne recoûte rien.
 
 ## Organisation du code
 
@@ -75,3 +91,4 @@ par exemple `assets/sprites/baby/idle_01.png`, puis recompile.
 | `tools/sprite_manifest.py` | Liste de référence de tous les sprites |
 | `tools/png2rgb565.py` | Conversion PNG → `src/generated/sprites_gen.*` |
 | `tools/gen_sprite_doc.py` | Régénère `docs/SPRITES.md` |
+| `tools/fal_dragons.py` | Génère les sprites du dragon avec l'API Fal |
