@@ -429,16 +429,15 @@ static void updateGame(uint8_t in, uint32_t now) {
 
 static void drawGame(const View& v) {
   ui::drawBackground(canvas, BG_GAME, 0x4D3F);
-  canvas.fillRect(0, ui::GROUND_Y, ui::W, ui::H - ui::GROUND_Y, ui::COL_GROUND);
+  if (!BACKGROUNDS[BG_GAME]) canvas.fillRect(0, ui::GROUND_Y, ui::W, ui::H - ui::GROUND_Y, ui::COL_GROUND);
   char buf[32];
   canvas.setFont(&fonts::Font2);
-  canvas.setTextColor(0xFFFF);
   canvas.setTextDatum(top_left);
   snprintf(buf, sizeof(buf), "Manche %d/5", game.round < 5 ? game.round + 1 : 5);
-  canvas.drawString(buf, 4, 2);
+  ui::drawShadowText(canvas, buf, 4, 2, 0xFFFF);
   canvas.setTextDatum(top_right);
   snprintf(buf, sizeof(buf), "Gagne %d", game.wins);
-  canvas.drawString(buf, ui::W - 4, 2);
+  ui::drawShadowText(canvas, buf, ui::W - 4, 2, 0xFFFF);
   // créature au centre
   const int size = 32 * ui::CREATURE_SCALE;
   PoseId pose = anim.busy() ? v.pose : POSE_IDLE;
@@ -450,15 +449,14 @@ static void drawGame(const View& v) {
     ui::drawSprite(canvas, SPR_UI_ARROW_LEFT, 0, 12, 70, 2);
     ui::drawSprite(canvas, SPR_UI_ARROW_RIGHT, 0, ui::W - 28, 70, 2);
     canvas.setTextDatum(middle_center);
-    canvas.drawString("A", 20, 100);
-    canvas.drawString("B", ui::W - 20, 100);
+    ui::drawShadowText(canvas, "A", 20, 100, 0xFFFF);
+    ui::drawShadowText(canvas, "B", ui::W - 20, 100, 0xFFFF);
   } else if (v.emote >= 0) {
     ui::drawSprite(canvas, SPRITES[v.emote], v.emoteFrame, ui::W / 2 + 24, 22, 2);
   }
   if (game.finished) {
     canvas.setTextDatum(middle_center);
-    canvas.setTextColor(ui::COL_ACCENT);
-    canvas.drawString(game.wins >= 3 ? "Gagne !" : "Perdu...", ui::W / 2, 30);
+    ui::drawShadowText(canvas, game.wins >= 3 ? "Gagne !" : "Perdu...", ui::W / 2, 30, ui::COL_ACCENT);
   }
 }
 
@@ -554,11 +552,10 @@ void setup() {
   }
   // écran titre
   ui::drawBackground(canvas, BG_TITLE, ui::COL_PANEL);
+  canvas.setFont(&fonts::Font4);
+  canvas.setTextDatum(middle_center);
+  ui::drawShadowText(canvas, "Tamagochi", ui::W / 2, BACKGROUNDS[BG_TITLE] ? 28 : 50, ui::COL_ACCENT);
   if (!BACKGROUNDS[BG_TITLE]) {
-    canvas.setFont(&fonts::Font4);
-    canvas.setTextColor(ui::COL_ACCENT);
-    canvas.setTextDatum(middle_center);
-    canvas.drawString("Tamagochi", ui::W / 2, 50);
     ui::drawSprite(canvas, CREATURE_ANIMS[STAGE_EGG][POSE_IDLE], 0, ui::W / 2 - 32, 70, 2);
   }
   canvas.pushSprite(0, 0);

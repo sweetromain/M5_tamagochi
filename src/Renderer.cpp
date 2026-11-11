@@ -64,6 +64,13 @@ void drawHint(M5Canvas& c, const char* text) {
   c.drawString(text, W / 2, H - 2);
 }
 
+void drawShadowText(M5Canvas& c, const char* text, int x, int y, uint16_t color) {
+  c.setTextColor(0x0000);
+  c.drawString(text, x + 1, y + 1);
+  c.setTextColor(color);
+  c.drawString(text, x, y);
+}
+
 void drawMain(M5Canvas& c, const tama::Pet& pet, const View& v, int selected, bool blinkOn) {
   const tama::PetData& d = pet.data();
   const bool night = d.lightsOff;

@@ -34,5 +34,7 @@ void drawMain(M5Canvas& c, const tama::Pet& pet, const View& v, int selected, bo
 void drawHearts(M5Canvas& c, int x, int y, uint8_t value, uint8_t max = 4);
 void drawTitleBar(M5Canvas& c, const char* title);
 void drawHint(M5Canvas& c, const char* text);
+// Texte avec ombre portée noire (lisible sur les décors). Utilise la police et l'alignement courants.
+void drawShadowText(M5Canvas& c, const char* text, int x, int y, uint16_t color);
 
 }  // namespace ui

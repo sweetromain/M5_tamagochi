@@ -58,8 +58,9 @@ L'écran s'éteint après 30 s ; un appui le rallume. Il se rallume tout seul qu
 
 La créature est un **dragon** : ses sprites (`assets/sprites/`) ont été générés avec l'API
 [Fal](https://fal.ai) par `tools/fal_dragons.py`, et les **objets** (`assets/sprites/items/` : repas,
-friandise, médicament, caca, douche, balle, tombe, lit) par `tools/fal_items.py`. Les bulles, icônes et
-éléments d'interface sont des **sprites provisoires** dessinés par `tools/make_placeholders.py`.
+friandise, médicament, caca, douche, balle, tombe, lit) par `tools/fal_items.py`, et les **décors**,
+bulles d'émotion, icônes, éléments d'interface et l'effet d'évolution par `tools/fal_ui.py`.
+Les sprites provisoires de `tools/make_placeholders.py` ne servent plus que de repli.
 La **liste exhaustive** des sprites à dessiner, avec tailles, nombre d'images, priorités et
 conventions de nommage, est dans **[docs/SPRITES.md](docs/SPRITES.md)**.
 
@@ -74,7 +75,11 @@ python3 tools/fal_dragons.py --refs-only     # 1 référence par stade + planche
 python3 tools/fal_dragons.py                 # toutes les poses (~230 éditions + détourages, ~10 $)
 python3 tools/fal_dragons.py --stage baby --pose eat --force   # refaire une pose ratée
 python3 tools/fal_items.py                   # objets (~16 générations, < 1 $), planche docs/items_planche.png
+python3 tools/fal_ui.py                      # décors + bulles + icônes + interface (~35 générations, ~2 $)
 ```
+
+Pour les petits sprites (`fal_ui.py`), seul le symbole est généré : la tuile des icônes, la bulle des
+émotions, les barres de batterie et les images d'animation sont composées en code pour rester nettes.
 
 Méthode : le bébé est généré par texte (FLUX dev), chaque stade suivant est obtenu en éditant le
 précédent (FLUX Kontext), puis chaque pose en éditant la référence du stade : c'est toujours le
@@ -95,3 +100,4 @@ Les images brutes sont en cache dans `assets/fal_raw/` (non versionné) : relanc
 | `tools/gen_sprite_doc.py` | Régénère `docs/SPRITES.md` |
 | `tools/fal_dragons.py` | Génère les sprites du dragon avec l'API Fal |
 | `tools/fal_items.py` | Génère les sprites d'objets avec l'API Fal |
+| `tools/fal_ui.py` | Génère les décors, bulles, icônes et l'interface avec l'API Fal |

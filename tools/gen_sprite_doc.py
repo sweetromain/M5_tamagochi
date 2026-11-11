@@ -13,8 +13,9 @@ INTRO = """# Sprites à dessiner
 > Fichier généré par `tools/gen_sprite_doc.py` à partir de `tools/sprite_manifest.py`.
 
 Les sprites du **dragon** (`assets/sprites/`, aperçu ci-dessous) ont été générés avec Fal par
-`tools/fal_dragons.py`, les **objets** par `tools/fal_items.py` (aperçu : `items_planche.png`).
-Les bulles, icônes, interface et effets utilisent les **sprites provisoires** de `assets/placeholders/`.
+`tools/fal_dragons.py`, les **objets** par `tools/fal_items.py` (aperçu : `items_planche.png`), les
+**décors, bulles, icônes, interface et effets** par `tools/fal_ui.py` (aperçus : `decors_planche.png`,
+`ui_planche.png`). Les **sprites provisoires** de `assets/placeholders/` ne servent plus que de repli.
 Chaque PNG déposé dans `assets/sprites/` (même nom, même dossier) **remplace** le provisoire ou le
 dragon à la compilation suivante. Tu peux retoucher ou livrer petit à petit.
 
@@ -97,7 +98,7 @@ def main():
         out.append("")
 
     out.append("## 10. Fonds optionnels (`bg/`)\n")
-    out.append("Sans fichier, un fond uni est dessiné. Un fond = 64 Ko de mémoire flash.\n")
+    out.append("Générés par `tools/fal_ui.py`. Sans fichier, un fond uni est dessiné. Un fond = 64 Ko de mémoire flash.\n")
     out.append("| Fichier | Taille | Usage |\n|---|---|---|")
     for name, w, h, desc in M.BACKGROUNDS:
         out.append(f"| `{name}.png` (pas de numéro) | {w}x{h} | {desc} |")
