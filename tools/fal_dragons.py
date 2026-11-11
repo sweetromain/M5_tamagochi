@@ -219,6 +219,13 @@ def cutout(fal, raw_path):
     return cut
 
 
+def cutout_reset(raw_path):
+    """Supprime le détourage en cache d'une image régénérée."""
+    cut = raw_path[:-4] + "_cut.png"
+    if os.path.exists(cut):
+        os.remove(cut)
+
+
 def remove_background(img, tol=60):
     """Rend transparent le fond connecté aux bords (couleur proche de celle des coins)."""
     img = img.convert("RGBA")
@@ -266,24 +273,30 @@ def remove_background(img, tol=60):
 CUT_FAL = None  # client Fal utilisé pour le détourage (None = détourage local)
 
 
-def to_sprite(raw_path, max_size):
+def to_sprite(raw_path, max_size, canvas=(32, 32), anchor="bottom", colors=16):
+    """Détoure, recadre et réduit une image en sprite de taille `canvas`.
+
+    max_size : plus grande dimension du sprite ; anchor : "bottom" (posé au sol) ou "center".
+    """
     cut = cutout(CUT_FAL, raw_path)
     img = Image.open(cut).convert("RGBA") if cut else remove_background(Image.open(raw_path))
     bbox = img.getchannel("A").point(lambda a: 255 if a > 128 else 0).getbbox()
     if not bbox:
         raise RuntimeError(f"image vide après détourage : {raw_path}")
     img = img.crop(bbox)
+    cw, ch = canvas
     w, h = img.size
-    k = max_size / max(w, h)
+    k = min(max_size / max(w, h), cw / w, ch / h)
     nw, nh = max(1, round(w * k)), max(1, round(h * k))
     small = img.resize((nw, nh), Image.LANCZOS)
     # binarise l'alpha et réduit la palette
     alpha = small.getchannel("A").point(lambda a: 255 if a >= 110 else 0)
-    rgb = small.convert("RGB").quantize(colors=16, method=Image.Quantize.MEDIANCUT).convert("RGB")
-    out = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+    rgb = small.convert("RGB").quantize(colors=colors, method=Image.Quantize.MEDIANCUT).convert("RGB")
+    out = Image.new("RGBA", canvas, (0, 0, 0, 0))
     sprite = rgb.convert("RGBA")
     sprite.putalpha(alpha)
-    out.paste(sprite, ((32 - nw) // 2, 31 - nh + 1 if nh < 32 else 0), sprite)
+    y = ch - nh if anchor == "bottom" else (ch - nh) // 2
+    out.paste(sprite, ((cw - nw) // 2, y), sprite)
     return out
 
 

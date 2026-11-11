@@ -3,7 +3,8 @@
 > Fichier généré par `tools/gen_sprite_doc.py` à partir de `tools/sprite_manifest.py`.
 
 Les sprites du **dragon** (`assets/sprites/`, aperçu ci-dessous) ont été générés avec Fal par
-`tools/fal_dragons.py`. Tout le reste utilise les **sprites provisoires** de `assets/placeholders/`.
+`tools/fal_dragons.py`, les **objets** par `tools/fal_items.py` (aperçu : `items_planche.png`).
+Les bulles, icônes, interface et effets utilisent les **sprites provisoires** de `assets/placeholders/`.
 Chaque PNG déposé dans `assets/sprites/` (même nom, même dossier) **remplace** le provisoire ou le
 dragon à la compilation suivante. Tu peux retoucher ou livrer petit à petit.
 
